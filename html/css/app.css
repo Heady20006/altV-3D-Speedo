@@ -1,0 +1,114 @@
+body {
+  font-size: 12vw;
+  overflow: hidden;
+  font-family: "Orbitron", sans-serif;
+  color: chartreuse;
+}
+
+#container {
+  animation: fadein 6s;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+#top,
+#bottom {
+  width: 100%;
+}
+
+#top {
+  height: 70vh;
+}
+#bottom {
+  height: 30vh;
+}
+
+#speedContainer {
+  text-shadow: 2px 3px 3px rgba(255, 255, 255, 0.75);
+  position: relative;
+  height: 100%;
+  width: 25px;
+}
+
+#speedValue {
+  background-color: rgba(9, 138, 16, 0.75);
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+#speedText {
+  margin-left: 35px;
+  margin-top: -40px;
+}
+
+#gearText {
+  text-shadow: 2px 3px 3px rgba(255, 255, 255, 0.75);
+  font-size: 8vw;
+  position: absolute;
+  top: 70vh;
+}
+
+#rpmMeter {
+  position: absolute;
+  top: 88vh;
+  height: 1.5vh;
+}
+
+#fuelMeter {
+  position: absolute;
+  width: 125px;
+  top: 91vh;
+  height: 3.5vh;
+}
+
+#fuelDisplay {
+  position: absolute;
+  top: 90vh;
+  display: flex;
+}
+
+.fuelTick {
+  font-size: small;
+  width: calc(125px / 4);
+  height: 15px;
+  color: rgb(255, 255, 255);
+}
+
+#engineIcon {
+  visibility: hidden;
+  position: absolute;
+  top: 75vh;
+  left: 80vw;
+  font-size: 10vw;
+  color: red;
+}
+
+#lightIcon {
+  visibility: hidden;
+  position: absolute;
+  top: 75vh;
+  left: 70vw;
+  font-size: 10vw;
+  color: green;
+}
+
+meter::-webkit-meter-bar {
+  background: transparent;
+}
+meter::-webkit-meter-optimum-value {
+  background: green;
+}
+meter::-webkit-meter-suboptimum-value {
+  background: orange;
+}
+meter::-webkit-meter-even-less-good-value {
+  background: red;
+}

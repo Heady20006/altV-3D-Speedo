@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link rel="stylesheet" href="css/app.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Orbitron"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <title>speedometer</title>
+  </head>
+  <body>
+    <div id="container">
+      <div id="top">
+        <div id="speedContainer">
+          <div id="speedValue">
+            <div id="speedText">0</div>
+          </div>
+        </div>
+      </div>
+      <div id="bottom">
+        <div id="gearText">5</div>
+        <meter
+          id="rpmMeter"
+          min="1500"
+          low="8500"
+          optimum="4500"
+          high="9500"
+          max="10000"
+          value="5000"
+        ></meter>
+        <meter
+          id="fuelMeter"
+          min="0"
+          low="10"
+          optimum="50"
+          high="90"
+          max="100"
+        ></meter>
+        <div id="fuelDisplay">
+          <div id="empty" class="fuelTick">|<b>E</b></div>
+          <div id="quarter" class="fuelTick">I</div>
+          <div id="half" class="fuelTick">1|2</div>
+          <div id="threeQuarters" class="fuelTick">I</div>
+          <div id="full" class="fuelTick">|<b>F</b></div>
+        </div>
+        <div id="engineIcon">M</div>
+        <div id="lightIcon">L</div>
+      </div>
+    </div>
+    <script src="js/app.js"></script>
+  </body>
+</html>

@@ -2,6 +2,7 @@ import * as alt from "alt-client";
 import * as game from "natives";
 
 let speedoObject;
+let speedoInterval;
 let view = null;
 
 alt.onServer("speedometer:hide", () => {
@@ -11,6 +12,7 @@ alt.onServer("speedometer:hide", () => {
       view.destroy();
       view = null;
     }
+    alt.clearInterval(speedoInterval);
   }
 });
 
@@ -18,33 +20,39 @@ alt.onServer("speedometer:show", () => {
   showWebviewSpeedo(alt.Player.local.vehicle);
 });
 
-alt.everyTick(() => {
-  if (view === null) return;
-  let vehicle = alt.Player.local.vehicle;
-  if (vehicle === null) return;
-  let vehicleColor = game.getVehicleCustomPrimaryColour(vehicle);
-  view.emit("speedometer:init", {
-    color: {
-      r: vehicleColor[1],
-      g: vehicleColor[2],
-      b: vehicleColor[3],
-    },
-  });
-  let engineHealth = game.getVehicleEngineHealth(vehicle.scriptID);
-  let vehicleFuel = vehicle.getSyncedMeta("FUEL");
-  let vehicleLights = game.getVehicleLightsState(vehicle.scriptID, null, null);
-  let vehicleLightState = vehicleLights[1];
-  let vehicleHighBeamState = vehicleLights[2];
-  view.emit("speedometer:data", {
-    speed: parseInt((game.getEntitySpeed(vehicle.scriptID) * 3.6).toFixed(0)),
-    gear: vehicle.gear,
-    fuel: parseInt(vehicleFuel),
-    rpm: vehicle.rpm * 10000,
-    engineHealth: parseInt(engineHealth),
-    lightState: vehicleLightState,
-    highBeamState: vehicleHighBeamState,
-  });
-});
+function startSpeedoInterval() {
+  speedoInterval = alt.setInterval(() => {
+    if (view === null) return;
+    let vehicle = alt.Player.local.vehicle;
+    if (vehicle === null) return;
+    let vehicleColor = game.getVehicleCustomPrimaryColour(vehicle);
+    view.emit("speedometer:init", {
+      color: {
+        r: vehicleColor[1],
+        g: vehicleColor[2],
+        b: vehicleColor[3],
+      },
+    });
+    let engineHealth = game.getVehicleEngineHealth(vehicle.scriptID);
+    let vehicleFuel = vehicle.getSyncedMeta("FUEL");
+    let vehicleLights = game.getVehicleLightsState(
+      vehicle.scriptID,
+      null,
+      null
+    );
+    let vehicleLightState = vehicleLights[1];
+    let vehicleHighBeamState = vehicleLights[2];
+    view.emit("speedometer:data", {
+      speed: parseInt((game.getEntitySpeed(vehicle.scriptID) * 3.6).toFixed(0)),
+      gear: vehicle.gear,
+      fuel: parseInt(vehicleFuel),
+      rpm: vehicle.rpm * 10000,
+      engineHealth: parseInt(engineHealth),
+      lightState: vehicleLightState,
+      highBeamState: vehicleHighBeamState,
+    });
+  }, 50);
+}
 
 function showWebviewSpeedo(vehicle) {
   let speedoModel = "prop_tv_flat_01_screen";
@@ -88,6 +96,7 @@ function showWebviewSpeedo(vehicle) {
               modelHash,
               speedoTexture
             );
+            startSpeedoInterval();
             alt.clearInterval(inter);
             return;
           }

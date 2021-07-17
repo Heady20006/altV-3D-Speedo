@@ -22,25 +22,19 @@ alt.everyTick(() => {
   if (view === null) return;
   let vehicle = alt.Player.local.vehicle;
   if (vehicle === null) return;
+  let vehicleColor = game.getVehicleCustomPrimaryColour(vehicle);
   view.emit("speedometer:init", {
     color: {
-      r: game.getVehicleCustomPrimaryColour(vehicle)[1],
-      g: game.getVehicleCustomPrimaryColour(vehicle)[2],
-      b: game.getVehicleCustomPrimaryColour(vehicle)[3],
+      r: vehicleColor[1],
+      g: vehicleColor[2],
+      b: vehicleColor[3],
     },
   });
   let engineHealth = game.getVehicleEngineHealth(vehicle.scriptID);
   let vehicleFuel = vehicle.getSyncedMeta("FUEL");
-  let highBeamState = game.getVehicleLightsState(
-    vehicle.scriptID,
-    null,
-    null
-  )[2];
-  let vehicleLightState = game.getVehicleLightsState(
-    vehicle.scriptID,
-    null,
-    null
-  )[1];
+  let vehicleLights = game.getVehicleLightsState(vehicle.scriptID, null, null);
+  let vehicleLightState = vehicleLights[1];
+  let vehicleHighBeamState = vehicleLights[2];
   view.emit("speedometer:data", {
     speed: parseInt((game.getEntitySpeed(vehicle.scriptID) * 3.6).toFixed(0)),
     gear: vehicle.gear,
@@ -48,7 +42,7 @@ alt.everyTick(() => {
     rpm: vehicle.rpm * 10000,
     engineHealth: parseInt(engineHealth),
     lightState: vehicleLightState,
-    highBeamState: highBeamState,
+    highBeamState: vehicleHighBeamState,
   });
 });
 

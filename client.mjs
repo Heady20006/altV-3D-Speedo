@@ -85,7 +85,8 @@ function showWebviewSpeedo(vehicle) {
         false,
         false,
         0,
-        true
+        true,
+        0
       );
       game.setEntityCollision(speedoObject, false, true);
       if (view === null) {
